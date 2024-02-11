@@ -62,8 +62,8 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          export TF_VAR_USERNAME=$DB_USERNAME
-          export TF_VAR_PASSWORD=$DB_PASSWORD
+          export TF_VAR_DB_USERNAME=$DB_USERNAME
+          export TF_VAR_DB_PASSWORD=$DB_PASSWORD
           export TF_VAR_S3_BUCKET_NAME=$S3_BUCKET_NAME
           export TF_VAR_S3_BUCKET_POLICY_ACTIONS=$S3_BUCKET_POLICY_ACTIONS
           export TF_VAR_DB_IDENTIFIER=$DB_IDENTIFIER
