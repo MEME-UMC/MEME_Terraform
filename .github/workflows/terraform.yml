@@ -87,6 +87,30 @@ jobs:
         id: validate
         run: terraform validate -no-color
 
+      - name: Terraform Apply
+        run: |
+          export TF_VAR_DB_USERNAME=$DB_USERNAME
+          export TF_VAR_DB_PASSWORD=$DB_PASSWORD
+          export TF_VAR_S3_BUCKET_NAME=$S3_BUCKET_NAME
+          export TF_VAR_S3_BUCKET_POLICY_ACTIONS=$S3_BUCKET_POLICY_ACTIONS
+          export TF_VAR_DB_IDENTIFIER=$DB_IDENTIFIER
+          export TF_VAR_PUBLIC_KEY=$PUBLIC_KEY
+          export TF_VAR_CERTIFICATE_DOMAIN=$CERTIFICATE_DOMAIN
+          export TF_VAR_DNS=$DNS
+          export TF_VAR_GATEWAY_DNS=$GATEWAY_DNS
+
+          terraform apply -input=false -auto-approve
+        env:
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          S3_BUCKET_NAME: ${{secrets.S3_BUCKET_NAME}}
+          DB_IDENTIFIER: ${{secrets.DB_IDENTIFIER}}
+          PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
+          CERTIFICATE_DOMAIN: ${{secrets.CERTIFICATE_DOMAIN}}
+          DNS: ${{secrets.DNS}}
+          GATEWAY_DNS: ${{secrets.GATEWAY_DNS}}
+
+
   Terraform_destroy:
     name: "Terraform_destroy"
     if: ${{ github.event.inputs.action == 'Terraform_destroy' }}
