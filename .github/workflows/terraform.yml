@@ -72,7 +72,7 @@ jobs:
           export TF_VAR_DNS=$DNS
           export TF_VAR_GATEWAY_DNS=$GATEWAY_DNS
           
-          terraform plan -input=false -var "$DB_USERNAME=$DB_USERNAME" -var "$DB_PASSWORD=$DB_PASSWORD" -var "$S3_BUCKET_NAME=$S3_BUCKET_NAME" -var "$DB_IDENTIFIER=$DB_IDENTIFIER" -var "$PUBLIC_KEY=$PUBLIC_KEY" -var "$CERTIFICATE_DOMAIN=$CERTIFICATE_DOMAIN" -var "$DNS=$DNS" -var "$GATEWAY_DNS=$GATEWAY_DNS"
+          terraform plan -input=false
         env:
           DB_USERNAME: ${{secrets.DB_USERNAME}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD}}
