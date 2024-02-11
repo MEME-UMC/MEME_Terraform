@@ -7,19 +7,15 @@ on:
   workflow_dispatch:
     inputs:
       # Working directory input from user.
-      resource:
-        type: choice
-        description: Choose the resource
-        options:
-          - name_of_dir1
-          - name_of_dir2
-      # Terraform action you want to perform
-      action:
-        description: 'Terraform Action to Perform'
+      terraform_operation:
+        description: "Terraform operation: plan, apply, destroy"
+        required: true
+        default: "plan"
         type: choice
         options:
-          - Terraform_apply
-          - Terraform_destroy
+          - plan
+          - apply
+          - destroy
 
 jobs:
   Terraform_apply:
@@ -82,6 +78,8 @@ jobs:
           CERTIFICATE_DOMAIN: ${{secrets.CERTIFICATE_DOMAIN}}
           DNS: ${{secrets.DNS}}
           GATEWAY_DNS: ${{secrets.GATEWAY_DNS}}
+        if: "${{ github.event.inputs.terraform_operation == 'plan' }}"
+
 
       - name: Terraform Validate
         id: validate
@@ -109,34 +107,9 @@ jobs:
           CERTIFICATE_DOMAIN: ${{secrets.CERTIFICATE_DOMAIN}}
           DNS: ${{secrets.DNS}}
           GATEWAY_DNS: ${{secrets.GATEWAY_DNS}}
-
-
-  Terraform_destroy:
-    name: "Terraform_destroy"
-    if: ${{ github.event.inputs.action == 'Terraform_destroy' }}
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ github.event.inputs.resource }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
+        if: "${{ github.event.inputs.terraform_operation == 'apply' }}"
 
       - name: Terraform Destroy
         id: destroy
-        working-directory: ${{ github.event.inputs.resource }}
         run: terraform destroy -auto-approve
+        if: "${{ github.event.inputs.terraform_operation == 'destroy' }}"
