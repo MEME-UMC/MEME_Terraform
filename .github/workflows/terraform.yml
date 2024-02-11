@@ -78,7 +78,7 @@ jobs:
           CERTIFICATE_DOMAIN: ${{secrets.CERTIFICATE_DOMAIN}}
           DNS: ${{secrets.DNS}}
           GATEWAY_DNS: ${{secrets.GATEWAY_DNS}}
-        if: "${{ github.event.inputs.terraform_operation == 'plan' }}"
+        if: ${{ github.event.inputs.terraform_operation == 'plan' }}
 
 
       - name: Terraform Validate
@@ -107,9 +107,9 @@ jobs:
           CERTIFICATE_DOMAIN: ${{secrets.CERTIFICATE_DOMAIN}}
           DNS: ${{secrets.DNS}}
           GATEWAY_DNS: ${{secrets.GATEWAY_DNS}}
-        if: "${{ github.event.inputs.terraform_operation == 'apply' }}"
+        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
 
       - name: Terraform Destroy
         id: destroy
         run: terraform destroy -auto-approve
-        if: "${{ github.event.inputs.terraform_operation == 'destroy' }}"
+        if: ${{ github.event.inputs.terraform_operation == 'destroy' }}
