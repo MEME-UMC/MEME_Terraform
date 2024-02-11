@@ -1,0 +1,118 @@
+name: 'Terraform'
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      # Working directory input from user.
+      resource:
+        type: choice
+        description: Choose the resource
+        options:
+          - name_of_dir1
+          - name_of_dir2
+      # Terraform action you want to perform
+      action:
+        description: 'Terraform Action to Perform'
+        type: choice
+        options:
+          - Terraform_apply
+          - Terraform_destroy
+
+jobs:
+  Terraform_apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init
+        run: |
+          export TF_VAR_USERNAME=$DB_USERNAME
+          export TF_VAR_PASSWORD=$DB_PASSWORD
+          export TF_VAR_S3_BUCKET_NAME=$S3_BUCKET_NAME
+          export TF_VAR_S3_BUCKET_POLICY_ACTIONS=$S3_BUCKET_POLICY_ACTIONS
+          export TF_VAR_DB_IDENTIFIER=$DB_IDENTIFIER
+          export TF_VAR_PUBLIC_KEY=$PUBLIC_KEY
+          export TF_VAR_CERTIFICATE_DOMAIN=$CERTIFICATE_DOMAIN
+          export TF_VAR_DNS=$DNS
+          export TF_VAR_GATEWAY_DNS=$GATEWAY_DNS
+          
+          terraform init
+        env:
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          S3_BUCKET_NAME: ${{secrets.S3_BUCKET_NAME}}
+          DB_IDENTIFIER: ${{secrets.DB_IDENTIFIER}}
+          PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
+          CERTIFICATE_DOMAIN: ${{secrets.CERTIFICATE_DOMAIN}}
+          DNS: ${{secrets.DNS}}
+          GATEWAY_DNS: ${{secrets.GATEWAY_DNS}}
+
+      - name: Terraform Plan
+        run: |
+          export TF_VAR_USERNAME=$DB_USERNAME
+          export TF_VAR_PASSWORD=$DB_PASSWORD
+          export TF_VAR_S3_BUCKET_NAME=$S3_BUCKET_NAME
+          export TF_VAR_S3_BUCKET_POLICY_ACTIONS=$S3_BUCKET_POLICY_ACTIONS
+          export TF_VAR_DB_IDENTIFIER=$DB_IDENTIFIER
+          export TF_VAR_PUBLIC_KEY=$PUBLIC_KEY
+          export TF_VAR_CERTIFICATE_DOMAIN=$CERTIFICATE_DOMAIN
+          export TF_VAR_DNS=$DNS
+          export TF_VAR_GATEWAY_DNS=$GATEWAY_DNS
+          
+          terraform plan -input=false -var "$DB_USERNAME=$DB_USERNAME" -var "$DB_PASSWORD=$DB_PASSWORD" -var "$S3_BUCKET_NAME=$S3_BUCKET_NAME" -var "$DB_IDENTIFIER=$DB_IDENTIFIER" -var "$PUBLIC_KEY=$PUBLIC_KEY" -var "$CERTIFICATE_DOMAIN=$CERTIFICATE_DOMAIN" -var "$DNS=$DNS" -var "$GATEWAY_DNS=$GATEWAY_DNS"
+        env:
+          DB_USERNAME: ${{secrets.DB_USERNAME}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+          S3_BUCKET_NAME: ${{secrets.S3_BUCKET_NAME}}
+          DB_IDENTIFIER: ${{secrets.DB_IDENTIFIER}}
+          PUBLIC_KEY: ${{secrets.PUBLIC_KEY}}
+          CERTIFICATE_DOMAIN: ${{secrets.CERTIFICATE_DOMAIN}}
+          DNS: ${{secrets.DNS}}
+          GATEWAY_DNS: ${{secrets.GATEWAY_DNS}}
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -no-color
+
+  Terraform_destroy:
+    name: "Terraform_destroy"
+    if: ${{ github.event.inputs.action == 'Terraform_destroy' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ github.event.inputs.resource }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Destroy
+        id: destroy
+        working-directory: ${{ github.event.inputs.resource }}
+        run: terraform destroy -auto-approve
