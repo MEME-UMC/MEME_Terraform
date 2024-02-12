@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "meme_bucket" {
-  bucket = "bucket-test-25678"
+  bucket = var.S3_BUCKET_NAME
 
   tags = {
-    Name        = "bucket-test"
+    Name        = var.S3_BUCKET_NAME
     Environment = "Dev"
   }
 }
