@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "meme_bucket" {
-  bucket = "bucket-test-3"
+  bucket = "bucket-test-25678"
 
   tags = {
     Name        = "bucket-test"
@@ -37,7 +37,7 @@ resource "aws_s3_bucket_policy" "bucket-policy" {
         "s3:PutObject",
         "s3:DeleteObject"
       ],
-      "Resource":["arn:aws:s3:::${aws_s3_bucket.meme_bucket.bucket_domain_name}/*"]
+      "Resource":["arn:aws:s3:::${aws_s3_bucket.meme_bucket.id}/*"]
     }
   ]
 }
