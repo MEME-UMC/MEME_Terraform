@@ -108,12 +108,12 @@ jobs:
           GATEWAY_DNS: ${{secrets.GATEWAY_DNS}}
         if: ${{ github.event.inputs.terraform_operation == 'apply' }}
 
-      - name: AWS Plan Copy
+      - name: AWS Plan Copy to S3
         run: aws s3 cp terraform.tfstate s3://terraform-state-saving/terraform.tfstate
         id: copy
         if: ${{ github.event.inputs.terraform_operation == 'apply' }}
 
-      - name: AWS Plan Copy
+      - name: AWS Plan Copy From S3
         id: copyfrom
         run: aws s3 cp s3://terraform-state-saving/terraform.tfstate terraform.tfstate
         continue-on-error: true
