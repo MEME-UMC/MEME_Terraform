@@ -113,6 +113,13 @@ jobs:
         id: copy
         if: ${{ github.event.inputs.terraform_operation == 'apply' }}
 
+      - name: Get outputs
+        uses: dflook/terraform-output@v1
+        id: tf-outputs
+
+      - name: Print the hostname
+        run: echo "The ip_auth is ${{ steps.tf-outputs.outputs.elastic-ip-auth }}"
+
       - name: AWS Plan Copy From S3
         id: copyfrom
         run: aws s3 cp s3://terraform-state-saving/terraform.tfstate terraform.tfstate
