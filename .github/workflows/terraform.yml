@@ -132,8 +132,8 @@ jobs:
         with:
           host: ${{ steps.tf-outputs.outputs.elastic-ip-auth }}
           username: ubuntu
-          key: ${{secrets.PUBLIC_KEY}}
-          script: |
+          key: ${{ steps.tf-outputs.outputs.secret-key }}
+          run: |
             sudo apt update
             sudo apt install build-essential
             sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
