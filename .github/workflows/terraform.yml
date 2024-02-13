@@ -132,7 +132,7 @@ jobs:
         with:
           host: ${{ steps.tf-outputs.outputs.elastic-ip-auth }}
           username: ubuntu
-          key: ${{ steps.tf-outputs.outputs.secret-key }}
+          key: ${{ secrets.KEY }}
           run: |
             sudo apt update
             sudo apt install build-essential
