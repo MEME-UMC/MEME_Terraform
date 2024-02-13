@@ -113,38 +113,37 @@ jobs:
         id: copy
         if: ${{ github.event.inputs.terraform_operation == 'apply' }}
 
-      - name: Get outputs
-        uses: dflook/terraform-output@v1
-        id: tf-outputs
-        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
-
-      - name: Print the hostname
-        run: |
-          echo "The ip_auth is ${{ steps.tf-outputs.outputs.elastic-ip-auth }}"
-          echo "The ip_service is ${{ steps.tf-outputs.outputs.elastic-ip-service }}"
-#          echo "The rds_writer_endpoint is ${{ steps.tf-outputs.outputs.rds_writer_endpoint }}"
-#          echo "The elasticcache_endpoint is ${{ steps.tf-outputs.outputs.elasticcache_endpoint }}"
-        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
-
-
-      - name: basic Install on EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ steps.tf-outputs.outputs.elastic-ip-auth }}
-          username: ubuntu
-          key: ${{ secrets.KEY }}
-          script: |
-            sudo apt update
-            sudo apt install build-essential
-            sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-            sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-            sudo apt-get update
-            sudo apt-get install docker-ce docker-ce-cli containerd.io
-            sudo chmod 666 /var/run/docker.sock
-            docker run -p 8080:80 nginx
-        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
-
+#      - name: Get outputs
+#        uses: dflook/terraform-output@v1
+#        id: tf-outputs
+#        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
+#
+#      - name: Print the hostname
+#        run: |
+#          echo "The ip_auth is ${{ steps.tf-outputs.outputs.elastic-ip-auth }}"
+#          echo "The ip_service is ${{ steps.tf-outputs.outputs.elastic-ip-service }}"
+##          echo "The rds_writer_endpoint is ${{ steps.tf-outputs.outputs.rds_writer_endpoint }}"
+##          echo "The elasticcache_endpoint is ${{ steps.tf-outputs.outputs.elasticcache_endpoint }}"
+#        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
+#
+#
+#      - name: basic Install on EC2
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ steps.tf-outputs.outputs.elastic-ip-auth }}
+#          username: ubuntu
+#          key: ${{ secrets.KEY }}
+#          script: |
+#            sudo apt update
+#            sudo apt install build-essential
+#            sudo apt-get install apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+#            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+#            sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+#            sudo apt-get update
+#            sudo apt-get install docker-ce docker-ce-cli containerd.io
+#            sudo chmod 666 /var/run/docker.sock
+#            docker run -p 8080:80 nginx
+#        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
 
       - name: AWS Plan Copy From S3
         id: copyfrom
