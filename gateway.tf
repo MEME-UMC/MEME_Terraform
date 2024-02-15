@@ -12,23 +12,16 @@ resource "aws_api_gateway_resource" "api" {
   path_part   = "api"
 }
 
-resource "aws_api_gateway_resource" "v0" {
-  rest_api_id = aws_api_gateway_rest_api.meme_gateway.id
-  parent_id   = aws_api_gateway_resource.api.id
-  path_part   = "v0"
-}
-
 resource "aws_api_gateway_resource" "v1" {
   rest_api_id = aws_api_gateway_rest_api.meme_gateway.id
   parent_id   = aws_api_gateway_resource.api.id
   path_part   = "v1"
 }
 
-
-resource "aws_api_gateway_resource" "proxy0" {
+resource "aws_api_gateway_resource" "auth" {
   rest_api_id = aws_api_gateway_rest_api.meme_gateway.id
-  parent_id   = aws_api_gateway_resource.v0.id
-  path_part   = "{proxy+}"
+  parent_id   = aws_api_gateway_resource.v1.id
+  path_part   = "auth"
 }
 
 resource "aws_api_gateway_resource" "proxy" {
@@ -37,14 +30,10 @@ resource "aws_api_gateway_resource" "proxy" {
   path_part   = "{proxy+}"
 }
 
-resource "aws_api_gateway_method" "api_proxy0" {
-  rest_api_id   = aws_api_gateway_rest_api.meme_gateway.id
-  resource_id   = aws_api_gateway_resource.proxy0.id
-  http_method   = "ANY"
-  authorization = "NONE"
-  request_parameters = {
-    "method.request.path.proxy" = true
-  }
+resource "aws_api_gateway_resource" "auth_proxy" {
+  rest_api_id = aws_api_gateway_rest_api.meme_gateway.id
+  parent_id   = aws_api_gateway_resource.auth.id
+  path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "api_proxy" {
@@ -57,11 +46,20 @@ resource "aws_api_gateway_method" "api_proxy" {
   }
 }
 
+resource "aws_api_gateway_method" "api_auth_proxy" {
+  rest_api_id   = aws_api_gateway_rest_api.meme_gateway.id
+  resource_id   = aws_api_gateway_resource.auth_proxy.id
+  http_method   = "ANY"
+  authorization = "NONE"
+  request_parameters = {
+    "method.request.path.proxy" = true
+  }
+}
 
 resource "aws_api_gateway_integration" "ApiV0Integration" {
   rest_api_id          = aws_api_gateway_rest_api.meme_gateway.id
-  resource_id          = aws_api_gateway_resource.proxy0.id
-  http_method          = aws_api_gateway_method.api_proxy0.http_method
+  resource_id          = aws_api_gateway_resource.auth_proxy.id
+  http_method          = aws_api_gateway_method.api_auth_proxy.http_method
   type                 = "HTTP_PROXY"
   uri                  = "http://${aws_eip.meme_auth_ec2.public_ip}:8080/api/v0/{proxy}"
   integration_http_method = "ANY"
@@ -97,4 +95,31 @@ resource "aws_api_gateway_deployment" "meme_gateway" {
   ]
   rest_api_id = aws_api_gateway_rest_api.meme_gateway.id
   stage_name    = "prod"
+}
+
+
+resource "aws_api_gateway_authorizer" "demo" {
+  name                   = "authorizer"
+  rest_api_id            = aws_api_gateway_rest_api.meme_gateway.id
+  authorizer_uri         = aws_lambda_function.terraform_lambda_func.invoke_arn
+  authorizer_credentials = aws_iam_role.invocation_role.arn
+}
+
+resource "aws_iam_role" "invocation_role" {
+  name               = "api_gateway_auth_invocation"
+  path               = "/"
+  assume_role_policy = data.aws_iam_policy_document.invocation_assume_role.json
+}
+
+data "aws_iam_policy_document" "invocation_assume_role" {
+  statement {
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["apigateway.amazonaws.com"]
+    }
+
+    actions = ["sts:AssumeRole"]
+  }
 }
