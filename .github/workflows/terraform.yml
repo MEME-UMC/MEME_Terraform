@@ -113,19 +113,11 @@ jobs:
         id: copy
         if: ${{ github.event.inputs.terraform_operation == 'apply' }}
 
-#      - name: Get outputs
-#        uses: dflook/terraform-output@v1
-#        id: tf-outputs
-#        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
-#
-#      - name: Print the hostname
-#        run: |
-#          echo "The ip_auth is ${{ steps.tf-outputs.outputs.elastic-ip-auth }}"
-#          echo "The ip_service is ${{ steps.tf-outputs.outputs.elastic-ip-service }}"
-##          echo "The rds_writer_endpoint is ${{ steps.tf-outputs.outputs.rds_writer_endpoint }}"
-##          echo "The elasticcache_endpoint is ${{ steps.tf-outputs.outputs.elasticcache_endpoint }}"
-#        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
-#
+      - name: Get outputs
+        uses: dflook/terraform-output@v1
+        id: tf-outputs
+        if: ${{ github.event.inputs.terraform_operation == 'apply' }}
+
       - name: basic Install on EC2
         uses: appleboy/ssh-action@master
         with:
