@@ -18,7 +18,7 @@ resource "aws_api_gateway_resource" "v1" {
   path_part   = "v1"
 }
 
-resource "aws_api_gateway_resource" "auth" {
+resource "aws_api_gateway_resource" "auth_api" {
   rest_api_id = aws_api_gateway_rest_api.meme_gateway.id
   parent_id   = aws_api_gateway_resource.v1.id
   path_part   = "auth"
@@ -32,7 +32,7 @@ resource "aws_api_gateway_resource" "proxy" {
 
 resource "aws_api_gateway_resource" "auth_proxy" {
   rest_api_id = aws_api_gateway_rest_api.meme_gateway.id
-  parent_id   = aws_api_gateway_resource.auth.id
+  parent_id   = aws_api_gateway_resource.auth_api.id
   path_part   = "{proxy+}"
 }
 
@@ -40,7 +40,8 @@ resource "aws_api_gateway_method" "api_proxy" {
   rest_api_id   = aws_api_gateway_rest_api.meme_gateway.id
   resource_id   = aws_api_gateway_resource.proxy.id
   http_method   = "ANY"
-  authorization = "NONE"
+  authorization = "JWT"
+  authorizer_id = aws_api_gateway_authorizer.demo.id
   request_parameters = {
     "method.request.path.proxy" = true
   }
@@ -61,7 +62,7 @@ resource "aws_api_gateway_integration" "ApiV0Integration" {
   resource_id          = aws_api_gateway_resource.auth_proxy.id
   http_method          = aws_api_gateway_method.api_auth_proxy.http_method
   type                 = "HTTP_PROXY"
-  uri                  = "http://${aws_eip.meme_auth_ec2.public_ip}:8080/api/v0/{proxy}"
+  uri                  = "http://${aws_eip.meme_auth_ec2.public_ip}:8080/api/v1/auth/{proxy}"
   integration_http_method = "ANY"
 
   cache_key_parameters = ["method.request.path.proxy"]
@@ -96,7 +97,6 @@ resource "aws_api_gateway_deployment" "meme_gateway" {
   rest_api_id = aws_api_gateway_rest_api.meme_gateway.id
   stage_name    = "prod"
 }
-
 
 resource "aws_api_gateway_authorizer" "demo" {
   name                   = "authorizer"
