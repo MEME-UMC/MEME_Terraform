@@ -1,6 +1,6 @@
 // default security group
-resource "aws_default_security_group" "side_effect_default" {
-  vpc_id = aws_vpc.side_effect.id
+resource "aws_default_security_group" "meme_vpc_default" {
+  vpc_id = aws_vpc.meme_vpc.id
 
   ingress {
     protocol  = -1
@@ -21,8 +21,8 @@ resource "aws_default_security_group" "side_effect_default" {
   }
 }
 
-resource "aws_default_network_acl" "side_effect_default" {
-  default_network_acl_id = aws_vpc.side_effect.default_network_acl_id
+resource "aws_default_network_acl" "meme_vpc_default" {
+  default_network_acl_id = aws_vpc.meme_vpc.default_network_acl_id
 
   ingress {
     protocol   = -1
@@ -48,11 +48,11 @@ resource "aws_default_network_acl" "side_effect_default" {
 }
 
 // network acl for public subnets
-resource "aws_network_acl" "side_effect_public" {
-  vpc_id = aws_vpc.side_effect.id
+resource "aws_network_acl" "meme_vpc_public" {
+  vpc_id = aws_vpc.meme_vpc.id
   subnet_ids = [
-    aws_subnet.side_effect_public_subnet1.id,
-    aws_subnet.side_effect_public_subnet2.id,
+    aws_subnet.meme_vpc_public_subnet1.id,
+    aws_subnet.meme_vpc_public_subnet2.id,
   ]
 
   tags = {
@@ -60,8 +60,8 @@ resource "aws_network_acl" "side_effect_public" {
   }
 }
 
-resource "aws_network_acl_rule" "side_effect_public_ingress80" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_ingress80" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 100
   rule_action = "allow"
   egress = false
@@ -71,8 +71,8 @@ resource "aws_network_acl_rule" "side_effect_public_ingress80" {
   to_port = 80
 }
 
-resource "aws_network_acl_rule" "side_effect_public_egress80" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_egress80" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 100
   rule_action = "allow"
   egress = true
@@ -82,8 +82,8 @@ resource "aws_network_acl_rule" "side_effect_public_egress80" {
   to_port = 80
 }
 
-resource "aws_network_acl_rule" "side_effect_public_ingress443" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_ingress443" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 110
   rule_action = "allow"
   egress = false
@@ -93,8 +93,8 @@ resource "aws_network_acl_rule" "side_effect_public_ingress443" {
   to_port = 443
 }
 
-resource "aws_network_acl_rule" "side_effect_public_egress443" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_egress443" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 110
   rule_action = "allow"
   egress = true
@@ -104,8 +104,8 @@ resource "aws_network_acl_rule" "side_effect_public_egress443" {
   to_port = 443
 }
 
-resource "aws_network_acl_rule" "side_effect_public_ingress22" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_ingress22" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 120
   rule_action = "allow"
   egress = false
@@ -115,19 +115,19 @@ resource "aws_network_acl_rule" "side_effect_public_ingress22" {
   to_port = 22
 }
 
-resource "aws_network_acl_rule" "side_effect_public_egress22" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_egress22" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 120
   rule_action = "allow"
   egress = true
   protocol = "tcp"
-  cidr_block = aws_vpc.side_effect.cidr_block
+  cidr_block = aws_vpc.meme_vpc.cidr_block
   from_port = 22
   to_port = 22
 }
 
-resource "aws_network_acl_rule" "side_effect_public_ingress_ephemeral" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_ingress_ephemeral" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 140
   rule_action = "allow"
   egress = false
@@ -137,8 +137,8 @@ resource "aws_network_acl_rule" "side_effect_public_ingress_ephemeral" {
   to_port = 65535
 }
 
-resource "aws_network_acl_rule" "side_effect_public_egress_ephemeral" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_egress_ephemeral" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 140
   rule_action = "allow"
   egress = true
@@ -148,8 +148,8 @@ resource "aws_network_acl_rule" "side_effect_public_egress_ephemeral" {
   to_port = 65535
 }
 
-resource "aws_network_acl_rule" "side_effect_public_ingress8080" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_ingress8080" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 160
   rule_action = "allow"
   egress = false
@@ -159,19 +159,19 @@ resource "aws_network_acl_rule" "side_effect_public_ingress8080" {
   to_port = 8080
 }
 
-resource "aws_network_acl_rule" "side_effect_public_egress8080" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_egress8080" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 160
   rule_action = "allow"
   egress = true
   protocol = "tcp"
-  cidr_block = aws_vpc.side_effect.cidr_block
+  cidr_block = aws_vpc.meme_vpc.cidr_block
   from_port = 8080
   to_port = 8080
 }
 
-resource "aws_network_acl_rule" "side_effect_public_ingress5439" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_ingress5439" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 180
   rule_action = "allow"
   egress = false
@@ -181,19 +181,19 @@ resource "aws_network_acl_rule" "side_effect_public_ingress5439" {
   to_port = 5439
 }
 
-resource "aws_network_acl_rule" "side_effect_public_egress5439" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_egress5439" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 180
   rule_action = "allow"
   egress = true
   protocol = "tcp"
-  cidr_block = aws_vpc.side_effect.cidr_block
+  cidr_block = aws_vpc.meme_vpc.cidr_block
   from_port = 5439
   to_port = 5439
 }
 
-resource "aws_network_acl_rule" "side_effect_public_ingress3306" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_ingress3306" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 200
   rule_action = "allow"
   egress = false
@@ -203,53 +203,55 @@ resource "aws_network_acl_rule" "side_effect_public_ingress3306" {
   to_port = 3306
 }
 
-resource "aws_network_acl_rule" "side_effect_public_egress3306" {
-  network_acl_id = aws_network_acl.side_effect_public.id
+resource "aws_network_acl_rule" "meme_vpc_public_egress3306" {
+  network_acl_id = aws_network_acl.meme_vpc_public.id
   rule_number = 200
   rule_action = "allow"
   egress = true
   protocol = "tcp"
-  cidr_block = aws_vpc.side_effect.cidr_block
+  cidr_block = aws_vpc.meme_vpc.cidr_block
   from_port = 3306
   to_port = 3306
 }
 
 // network acl for private subnets
-resource "aws_network_acl" "side_effect_private" {
-  vpc_id = aws_vpc.side_effect.id
+resource "aws_network_acl" "meme_vpc_private" {
+  vpc_id = aws_vpc.meme_vpc.id
   subnet_ids = [
-    aws_subnet.side_effect_private_subnet1.id,
-    aws_subnet.side_effect_private_subnet2.id
+    aws_subnet.meme_vpc_private_subnet1.id,
+    aws_subnet.meme_vpc_private_subnet2.id,
+    aws_subnet.db_private_subnet1.id,
+    aws_subnet.db_private_subnet2.id
   ]
   tags = {
     Name = "private"
   }
 }
 
-resource "aws_network_acl_rule" "side_effect_private_ingress_vpc" {
-  network_acl_id = aws_network_acl.side_effect_private.id
+resource "aws_network_acl_rule" "meme_vpc_private_ingress_vpc" {
+  network_acl_id = aws_network_acl.meme_vpc_private.id
   rule_number = 100
   rule_action = "allow"
   egress = false
   protocol = -1
-  cidr_block = aws_vpc.side_effect.cidr_block
+  cidr_block = aws_vpc.meme_vpc.cidr_block
   from_port = 0
   to_port = 0
 }
 
-resource "aws_network_acl_rule" "side_effect_private_egress_vpc" {
-  network_acl_id = aws_network_acl.side_effect_private.id
+resource "aws_network_acl_rule" "meme_vpc_private_egress_vpc" {
+  network_acl_id = aws_network_acl.meme_vpc_private.id
   rule_number = 100
   rule_action = "allow"
   egress = true
   protocol = -1
-  cidr_block = aws_vpc.side_effect.cidr_block
+  cidr_block = aws_vpc.meme_vpc.cidr_block
   from_port = 0
   to_port = 0
 }
 
-resource "aws_network_acl_rule" "side_effect_private_ingress_nat" {
-  network_acl_id = aws_network_acl.side_effect_private.id
+resource "aws_network_acl_rule" "meme_vpc_private_ingress_nat" {
+  network_acl_id = aws_network_acl.meme_vpc_private.id
   rule_number = 110
   rule_action = "allow"
   egress = false
@@ -259,8 +261,8 @@ resource "aws_network_acl_rule" "side_effect_private_ingress_nat" {
   to_port = 65535
 }
 
-resource "aws_network_acl_rule" "side_effect_private_egress80" {
-  network_acl_id = aws_network_acl.side_effect_private.id
+resource "aws_network_acl_rule" "meme_vpc_private_egress80" {
+  network_acl_id = aws_network_acl.meme_vpc_private.id
   rule_number = 120
   rule_action = "allow"
   egress = true
@@ -270,8 +272,8 @@ resource "aws_network_acl_rule" "side_effect_private_egress80" {
   to_port = 80
 }
 
-resource "aws_network_acl_rule" "side_effect_private_egress8080" {
-  network_acl_id = aws_network_acl.side_effect_private.id
+resource "aws_network_acl_rule" "meme_vpc_private_egress8080" {
+  network_acl_id = aws_network_acl.meme_vpc_private.id
   rule_number = 130
   rule_action = "allow"
   egress = true
@@ -281,8 +283,8 @@ resource "aws_network_acl_rule" "side_effect_private_egress8080" {
   to_port = 8080
 }
 
-resource "aws_network_acl_rule" "side_effect_private_egress443" {
-  network_acl_id = aws_network_acl.side_effect_private.id
+resource "aws_network_acl_rule" "meme_vpc_private_egress443" {
+  network_acl_id = aws_network_acl.meme_vpc_private.id
   rule_number = 140
   rule_action = "allow"
   egress = true
@@ -293,10 +295,10 @@ resource "aws_network_acl_rule" "side_effect_private_egress443" {
 }
 
 // Basiton Host
-resource "aws_security_group" "side_effect_bastion" {
+resource "aws_security_group" "meme_vpc_bastion" {
   name = "meme_security"
   description = "Security group for bastion instance"
-  vpc_id = aws_vpc.side_effect.id
+  vpc_id = aws_vpc.meme_vpc.id
 
   ingress {
     from_port = 22
