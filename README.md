@@ -2,9 +2,8 @@
 - MEME Terraform을 이용한 배포
 <img src = "https://github.com/MEME-UMC/MEME_SERVICE/assets/52268188/31fbe9ba-ab6b-4ef7-8619-394b1186213f" width="30%" height="height 20%">
 
-> **UMC 5기 프로젝트** <br/>
-
 ## 🖥️ 프로젝트 소개
+> **UMC 5기 프로젝트** <br/>
 MEME, 메이크업 모델과 아티스트 매칭 플랫폼
 <br>
 <img src = "https://github.com/MEME-UMC/MEME_SERVICE/assets/52268188/36da8e2c-d212-468f-a53c-89dacd1bd2ea" width="30%" height="height 20%">
