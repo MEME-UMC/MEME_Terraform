@@ -1,4 +1,4 @@
-# MEME_TERRAFORM
+# MEME_TERRAFORM
 - MEME Terraform을 이용한 배포
 <img src = "https://github.com/MEME-UMC/MEME_SERVICE/assets/52268188/31fbe9ba-ab6b-4ef7-8619-394b1186213f" width="30%" height="height 20%">
 
@@ -17,7 +17,7 @@ MEME, 메이크업 모델과 아티스트 매칭 플랫폼
 - **Framework** : Terraform
 
 ### 아키텍처
-<img src = "https://github.com/MEME-UMC/MEME_SERVICE/assets/52268188/312ea17c-a8b2-42c2-9e8c-dfd5bb8f3a1b" width="60%" height="height 470%">
+<img src = "https://github.com/MEME-UMC/MEME_SERVICE/assets/52268188/312ea17c-a8b2-42c2-9e8c-dfd5bb8f3a1b" width="80%" height="height 60%">
 
 ## 📌 주요 기능
 #### IAM
