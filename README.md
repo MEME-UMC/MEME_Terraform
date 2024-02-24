@@ -2,15 +2,43 @@
 - MEME Terraform을 이용한 배포
 <img src = "https://github.com/MEME-UMC/MEME_SERVICE/assets/52268188/31fbe9ba-ab6b-4ef7-8619-394b1186213f" width="30%" height="height 20%">
 
+> **UMC 5기 프로젝트** <br/>
 
 ## 🖥️ 프로젝트 소개
 MEME, 메이크업 모델과 아티스트 매칭 플랫폼
 <br>
 <img src = "https://github.com/MEME-UMC/MEME_SERVICE/assets/52268188/36da8e2c-d212-468f-a53c-89dacd1bd2ea" width="30%" height="height 20%">
 
+## 팀 소개
+
+|      임재영       |          김다은         |       김승엽         |    박선우       |                                                                                                    
+| :------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | 
+|   <img src="https://avatars.githubusercontent.com/u/55044278?v=4" width=90px alt="제이스(임재영)"/>    |                      <img src="https://avatars.githubusercontent.com/u/122000839?v=4" width=90px alt="돌리(김다은)"/>    |                   <img src="https://avatars.githubusercontent.com/u/61226778?v=4" width=90px alt="요비(김승엽)"/>   | <img src="https://avatars.githubusercontent.com/u/52268188?v=4" width=90px alt="썬(박선우)"/>
+|   [@limjustin](https://github.com/limjustin)   |    [@daeun084](https://github.com/daeun084)  | [@yeopyeop-82](https://github.com/yeopyeop-82)  | [@sunwupark](https://github.com/sunwupark)
+| 상명대학교 컴퓨터과학과 | 숭실대학교 컴퓨터공학과 | 상명대학교 컴퓨터과학과 | 경희대학교 컴퓨터공학과 |
 
 ## 🕰️ 개발 기간
 * 24.02.15일 ~
+
+## 시작 가이드
+
+### Requirements
+For building and running the application you need:
+
+### Installation
+
+``` bash
+$ git clone https://github.com/MEME-UMC/MEME_Terraform.git
+$ cd MEME_Terraform
+$ fill in variables with right value
+```
+#### RUN
+```
+$ terraform init
+$ terraform plan
+$ terraform apply
+$ terraform destroy
+```
 
 ### ⚙️ 개발 환경
 - HCL
