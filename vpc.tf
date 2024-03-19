@@ -98,7 +98,6 @@ resource "aws_route" "meme_vpc_internet_access" {
 
 // elastic ip address for NAT
 resource "aws_eip" "meme_vpc_nat_eip" {
-  domain = vpc
   depends_on = ["aws_internet_gateway.meme_vpc_igw"]
 }
 
