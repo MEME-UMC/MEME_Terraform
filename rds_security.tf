@@ -2,7 +2,7 @@
 resource "aws_security_group" "rds_security" {
   name = "rds_security"
   description = "Security group for rds instance"
-  vpc_id = aws_vpc.side_effect.id
+  vpc_id = aws_vpc.meme_vpc.id
 
   ingress {
     from_port = 22

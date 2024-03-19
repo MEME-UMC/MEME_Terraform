@@ -2,7 +2,7 @@
 resource "aws_security_group" "elasticache_security" {
   name = "elasticache_security"
   description = "Security group for elasticache "
-  vpc_id = aws_vpc.side_effect.id
+  vpc_id = aws_vpc.meme_vpc.id
 
   ingress {
     from_port = 6379

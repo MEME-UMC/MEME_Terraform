@@ -1,6 +1,6 @@
 resource "aws_elasticache_subnet_group" "example" {
   name       = "my-cache-subnet"
-  subnet_ids = [aws_subnet.side_effect_private_subnet1.id, aws_subnet.side_effect_private_subnet2.id]
+  subnet_ids = [aws_subnet.db_private_subnet1.id, aws_subnet.db_private_subnet2.id]
 }
 
 resource "aws_elasticache_replication_group" "elasticache_cluster" {

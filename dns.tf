@@ -6,7 +6,7 @@ resource "aws_api_gateway_domain_name" "api" {
   }
 }
 
-resource "aws_route53_record" "sangchulkr_sub1" {
+resource "aws_route53_record" "meme_route53" {
   zone_id = data.aws_route53_zone.public.zone_id
   name    = var.GATEWAY_DNS
   type    = "A"
