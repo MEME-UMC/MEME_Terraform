@@ -4,8 +4,7 @@ resource "aws_acm_certificate" "api" {
 }
 
 data "aws_route53_zone" "public" {
-  //name         = var.DNS
-  name = "teddytown.shop"
+  name         = var.DNS
   private_zone = false
 }
 
