@@ -10,7 +10,7 @@ resource "aws_db_instance" "mysql_db" {
   identifier           = var.DB_IDENTIFIER
   allocated_storage    =  20
   engine_version       = "8.0"
-  instance_class       = "db.t2.micro"
+  instance_class       = "db.t3.micro"
   username = var.DB_USERNAME # 인스턴스에서 직접 제어되는 DB Master User Name
   password = var.DB_PASSWORD
   parameter_group_name = "default.mysql8.0"  # Update for MySQL 8.0
