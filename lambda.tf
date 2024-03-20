@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "terraform_lambda_func" {
-  s3_bucket = "terraform-state-saving"
+  s3_bucket = "meme-terraform-state-saving"
   s3_key = "authorizer.zip"
   function_name                  = "JWTAuthorizer"
   role                           = aws_iam_role.lambda_role.arn
